@@ -13,17 +13,16 @@ import matplotlib.pyplot as plt
 
 record = wfdb.rdrecord("../data/fantasia/f1o01")
 
-print(record)
+ecg_index = record.sig_name.index("ECG")
+ecg = record.p_signal[:, ecg_index]
 
-ecg = record.p_signal
-
-print(ecg.shape)
+fs = record.fs  # 250 Hz
 
 plt.figure(figsize=(12, 4))
-plt.plot(ecg[:5000, 0])
+plt.plot(ecg[:4 * fs])   # First 4 seconds
+plt.title("ECG (First 4 Seconds)")
 plt.xlabel("Sample")
-plt.ylabel("Voltage")
-plt.title("ECG")
+plt.ylabel("Voltage (mV)")
 plt.show()
 
 annotation = wfdb.rdann("../data/fantasia/f1o01", "ecg")
